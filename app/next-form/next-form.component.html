@@ -1,0 +1,72 @@
+<form [formGroup]="nextForm" (ngSubmit)="submitnextForm()">
+  <div>
+    <label for="tenthMark"
+      >Enter your 10th Percentage:<a class="star">*</a></label
+    >
+    <input
+      type="text"
+      id="tenthMark"
+      class="form-control"
+      placeholder="Enter 10th mark"
+      formControlName="tenthMark"
+    />
+    <div
+      *ngIf="
+        nextForm.get('tenthMark')?.invalid && nextForm.get('tenthMark')?.touched
+      "
+      class="error"
+    >
+      <div *ngIf="nextForm.get('tenthMark')?.errors?.['maxlength']">
+        Enter in Percentage Not More thatn 100
+      </div>
+    </div>
+  </div>
+  <div>
+    <label for="10thfileUpload">Upload your 10th Marksheet:</label>
+    <input
+      type="file"
+      id="fileUpload"
+      name="attachment"
+      accept=".jpg,.png,.pdf,.doc,.docx"
+      required
+    />
+  </div>
+  <div>
+    <label for="twelfthMark"
+      >Enter Your 12th Percentage:<a class="star">*</a></label
+    >
+    <input
+      type="text"
+      id="twelfthMark"
+      placeholder="Enter 12th mark"
+      formControlName="twelfthMark"
+    />
+  </div>
+  <div>
+    <label for="12thfileUpload">Upload your 12th Marksheet:</label>
+    <input
+      type="file"
+      id="fileUpload"
+      name="attachment"
+      accept=".jpg,.png,.pdf,.doc,.docx"
+      required
+    />
+  </div>
+  <div>
+    <label for="loi">Letter Of Intent</label>
+    <input type="text" id="loi" />
+  </div>
+
+  <div>
+    <button type="button" id="reset-id" (click)="previous()">Clear All</button
+    ><br />
+    <br />
+    <button type="submit" [disabled]="nextForm.invalid">Submit</button>
+    <br />
+    <br />
+    <a href="">Terms and Conditions</a>
+    <br />
+    <br />
+    <a href="">Privacy Policy</a>
+  </div>
+</form>

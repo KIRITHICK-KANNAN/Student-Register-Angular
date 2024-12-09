@@ -1,0 +1,123 @@
+<form [formGroup]="userForm" (ngSubmit)="submitForm()">
+  <div>
+    <h3>Student Registration</h3>
+  </div>
+  <div>
+    <label for="name">Name:<a class="star">*</a></label>
+    <input type="text" id="name" formControlName="name" placeholder="Name" />
+  </div>
+  <div>
+    <label for="email">Email:<a class="star">*</a></label>
+    <input
+      type="text"
+      id="email"
+      formControlName="Email"
+      placeholder="kalam@gmail.com"
+    />
+  </div>
+
+  <div>
+    <label for="degree">Degree:<a class="star">*</a></label>
+    <select class="form-control" id="degree" formControlName="degree">
+      <option [ngValue]="null" [disabled]="true">--select--</option>
+      <option value="1">BE</option>
+      <option value="2">BTech</option>
+      <option value="3">Civil</option>
+      <option value="4">Mech</option>
+      <option value="5">CSBS</option>
+      <option value="6">AIML</option>
+    </select>
+  </div>
+  <div>
+    <label for="dob">Date of Birth :<a class="star">*</a></label>
+    <input type="date" formControlName="dob" name="dob" [max]="getToday()" />
+  </div>
+  <div>
+    <label for="fileUpload">Upload your file:</label>
+    <input
+      type="file"
+      id="fileUpload"
+      name="attachment"
+      accept=".jpg,.png,.pdf,.doc,.docx"
+      required
+    />
+  </div>
+  <div>
+    <label for="password">Password:<a class="star">*</a></label>
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      placeholder="Password"
+    />
+    <div
+      *ngIf="
+        userForm.get('password')?.invalid && userForm.get('password')?.touched
+      "
+      class="error"
+    >
+      <div *ngIf="userForm.get('password')?.errors?.['required']">
+        Password is required.
+      </div>
+      <div *ngIf="userForm.get('password')?.errors?.['minlength']">
+        Password must be at least 6 characters long.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="confirmpassword">Confirm Password:<a class="star">*</a></label>
+    <input
+      type="password"
+      id="confirmpassword"
+      formControlName="confirmpassword"
+      placeholder="Confirm Password"
+    />
+    <div
+      *ngIf="userForm.get('confirmpassword')?.touched && userForm.errors?.['passwordMismatch']"
+      class="error"
+    >
+      Passwords do not match.
+    </div>
+  </div>
+
+  <div formArrayName="phoneNumbers">
+    <div *ngFor="let phone of phoneNumbers.controls; let i = index">
+      <label for="phone-{{ i }}"
+        >Mobile No {{ i + 1 }}<a class="star">*</a></label
+      >
+      <input
+        id="phone-{{ i }}"
+        [formControlName]="i"
+        type="text"
+        placeholder="Enter 10-digit Mobile number"
+      />
+      <button type="button" (click)="removePhoneNumber(i)">Remove</button>
+
+      <!-- Error Message -->
+      <div *ngIf="phone.invalid && phone.touched" class="error">
+        <div *ngIf="phone.errors?.['required']">Phone number is required.</div>
+        <div *ngIf="phone.errors?.['pattern']">
+          Must be a valid 10-digit phone number.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="phonebut" type="button" (click)="addPhoneNumber()">
+      Add Phone Number
+    </button>
+  </div>
+
+  <div class="form-footer">
+    <button type="reset" id="reset-id">Reset</button>
+  </div>
+
+  <button type="submit" [disabled]="userForm.invalid">Submit</button>
+  <br />
+  <br />
+  <a href="#">Terms and Conditions</a>
+  <br />
+  <br />
+  <a href="#">Privacy Policy</a>
+</form>
